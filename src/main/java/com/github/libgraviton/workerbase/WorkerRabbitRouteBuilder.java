@@ -1,11 +1,23 @@
 package com.github.libgraviton.workerbase;
 
+
+import java.util.Properties;
 import org.apache.camel.builder.RouteBuilder;
 
 /**
  * A Camel Java DSL Router
  */
 public class WorkerRabbitRouteBuilder extends RouteBuilder {
+
+    private WorkerAbstract worker;
+
+    public WorkerAbstract getWorker() {
+        return worker;
+    }
+
+    public void setWorker(WorkerAbstract worker) {
+        this.worker = worker;
+    }
 
     /**
      * Let's configure the Camel routing rules using Java code...
