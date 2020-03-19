@@ -59,6 +59,17 @@
       <artifactId>camel-jackson</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.github.libgraviton</groupId>
+      <artifactId>gdk-core</artifactId>
+      <version>0.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.libgraviton</groupId>
+      <artifactId>gdk-essential-pojos</artifactId>
+      <version>0.3.0</version>
+    </dependency>
+
     <!-- logging -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -74,6 +85,14 @@
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
       <scope>runtime</scope>
+    </dependency>
+
+    <!-- exclude certain deps from tree -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>[1.2.3,]</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- testing -->
@@ -123,7 +142,7 @@
               <outputDirectory>${project.build.directory}/resources</outputDirectory>
               <resources>
                 <resource>
-                  <directory>resources</directory>
+                  <directory>src/main/resources</directory>
                   <filtering>true</filtering>
                 </resource>
               </resources>
@@ -143,6 +162,7 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
+              <excludeArtifactIds>logback-classic</excludeArtifactIds>
               <outputDirectory>${project.build.directory}/deps</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>false</overWriteSnapshots>
@@ -159,14 +179,12 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>com.github.libgraviton.MainApp</mainClass>
+              <mainClass>com.github.libgraviton.workerbase.Worker</mainClass>
               <classpathPrefix>deps/</classpathPrefix>
             </manifest>
-            <!--
             <manifestEntries>
-              <Class-Path>.</Class-Path>
+              <Class-Path>resources</Class-Path>
             </manifestEntries>
-            -->
           </archive>
         </configuration>
       </plugin>
@@ -177,7 +195,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
         <configuration>
-          <mainClass>com.github.libgraviton.MainApp</mainClass>
+          <mainClass>com.github.libgraviton.workerbase.Worker</mainClass>
           <includePluginDependencies>false</includePluginDependencies>
         </configuration>
       </plugin>
